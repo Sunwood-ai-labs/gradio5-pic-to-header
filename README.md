@@ -28,7 +28,7 @@ pip install -r requirements.txt
 1. Streamlitアプリケーションを起動します：
 
 ```
-streamlit run web_app/app.py
+streamlit run pic_to_header/app.py
 ```
 
 2. ブラウザで表示されるURLにアクセスします。
@@ -42,7 +42,7 @@ streamlit run web_app/app.py
 ## 開発
 
 - `pic_to_header/core.py`: 画像処理の主要な機能を含みます。
-- `web_app/app.py`: Streamlitを使用したWebインターフェースを提供します。
+- `pic_to_header/app.py`: Streamlitを使用したWebインターフェースを提供します。
 
 ## ライセンス
 
