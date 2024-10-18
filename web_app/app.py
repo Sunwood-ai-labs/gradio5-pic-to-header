@@ -1,5 +1,10 @@
 import streamlit as st
 import os
+import sys
+
+# プロジェクトのルートディレクトリをPYTHONPATHに追加
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from pic_to_header.core import process_header_image
 
 def main():
