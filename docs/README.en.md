@@ -1,7 +1,7 @@
 ---
-license: MIT
+license: mit
 title: Pic-to-Header
-sdk: Streamlit
+sdk: streamlit
 emoji: 🐨
 colorFrom: blue
 colorTo: purple
@@ -29,52 +29,55 @@ app_file: pic_to_header/app.py
 
 </div>
 
-Pic-to-Header is a Python application that generates header images using a mask image and an input image.
+Pic-to-Header is a Python application that generates header images using a mask image and an input image. Version 0.1.0 has been released.
 
-## 🚀 Features
+## 🚀 Project Overview
 
-- Upload a mask image and an input image.
-- Apply the mask to the input image to generate a header image.
-- Preview and download the generated header image.
+Pic-to-Header is a Streamlit application that allows you to easily generate and download header images using a mask image and an input image. It's also available on PyPI.
 
-## 🛠️ Installation
+## ✨ Key Features
+
+- Upload mask and input images
+- Generate header images
+- Preview and download generated header images
+- Display README.md (within the Streamlit app)
+- A calming, dark theme
+
+
+## 🔧 How to Use
+
+1.  **Installation**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+2.  **Run the Streamlit application**:
+    ```bash
+    streamlit run pic_to-header/app.py
+    ```
+3. Access the URL displayed in your browser, upload your input and mask images, and click the "Generate Header Image" button.
+
+
+## 📦 Installation Instructions
 
 1. Clone the repository:
+   ```bash
+   git clone https://github.com/Sunwood-ai-labs/pic-to-header.git
+   cd pic-to-header
+   ```
+2. Install the necessary dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-```bash
-git clone https://github.com/Sunwood-ai-labs/pic-to-header.git
-cd pic-to-header
-```
+## 🆕 What's New (v0.1.0)
 
-2. Install the required dependencies:
+- The repository name has been changed from `HarmonAI III` to `Pic-to-Header`.
+- Added release, tag, and PyPI version badges to the README.
+- Automated PyPI package publishing.
+- Enhanced functionality and improved design of the Streamlit application.
+- Added sample input images, generated sample images, and mask images.
 
-```bash
-pip install -r requirements.txt
-```
-
-## 📖 Usage
-
-1. Launch the Streamlit application:
-
-```bash
-streamlit run pic_to_header/app.py
-```
-
-2. Access the URL displayed in your browser.
-
-3. Upload the input image and the mask image.
-
-4. Click the "Generate Header Image" button.
-
-5. Preview and download the generated header image as needed.
-
-
-## 💻 Development
-
-- `pic_to_header/core.py`: Contains the main image processing functions.
-- `pic_to_header/app.py`: Provides the web interface using Streamlit.
 
 ## 📄 License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-```
+This project is licensed under the MIT License.  See the [LICENSE](LICENSE) file for details.
