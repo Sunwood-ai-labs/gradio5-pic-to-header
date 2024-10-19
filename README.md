@@ -1,3 +1,15 @@
+---
+license: mit
+title: pic-to-header
+sdk: streamlit
+emoji: 🐨
+colorFrom: blue
+colorTo: purple
+pinned: false
+app_file: pic_to_header/app.py
+
+---
+
 <div align="center">
 
 # Pic-to-Header
