@@ -7,7 +7,6 @@ colorFrom: blue
 colorTo: purple
 pinned: false
 app_file: pic_to_header/app.py
-
 ---
 
 <div align="center">
@@ -36,8 +35,19 @@ Pic-to-Headerは、マスク画像と入力画像を使用してヘッダー画�
 - マスク画像と入力画像をアップロード
 - 入力画像にマスクを適用してヘッダー画像を生成
 - 生成されたヘッダー画像のプレビューとダウンロード
+- コマンドラインインターフェース (CLI) を使用した画像処理
 
 ## 🛠️ インストール
+
+### 方法1: PyPIからのインストール
+
+Pic-to-Headerは、PyPIで利用可能です。以下のコマンドでインストールできます：
+
+```
+pip install pic-to-header
+```
+
+### 方法2: ソースからのインストール
 
 1. リポジトリをクローンします：
 
@@ -46,13 +56,15 @@ git clone https://github.com/Sunwood-ai-labs/pic-to-header.git
 cd pic-to-header
 ```
 
-2. 必要な依存関係をインストールします：
+2. パッケージをインストールします：
 
 ```
-pip install -r requirements.txt
+pip install -e .
 ```
 
 ## 📖 使用方法
+
+### Streamlitウェブアプリケーション
 
 1. Streamlitアプリケーションを起動します：
 
@@ -68,10 +80,25 @@ streamlit run pic_to_header/app.py
 
 5. 生成されたヘッダー画像をプレビューし、必要に応じてダウンロードします。
 
+### コマンドラインインターフェース (CLI)
+
+CLIを使用して画像を処理することもできます：
+
+```
+pic-to-header input_image.png mask_image.png output_image.png
+```
+
+例：
+
+```
+pic-to-header assets/sample.png assets/mask.png output_image.png
+```
+
 ## 💻 開発
 
 - `pic_to_header/core.py`: 画像処理の主要な機能を含みます。
 - `pic_to_header/app.py`: Streamlitを使用したWebインターフェースを提供します。
+- `pic_to_header/cli.py`: コマンドラインインターフェースを提供します。
 
 ## 📄 ライセンス
 
