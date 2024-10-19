@@ -28,11 +28,11 @@ app_file: pic_to_header/app.py
 
 </div>
 
-Pic-to-Headerは、マスク画像と入力画像を使用してヘッダー画像を生成するPythonアプリケーションです。  バージョン 0.1.0 がリリースされました。
+Pic-to-Headerは、マスク画像と入力画像を使用してヘッダー画像を生成するPythonアプリケーションです。 バージョン 0.1.1 がリリースされました。
 
 ## 🚀 プロジェクト概要
 
-Pic-to-Headerは、マスク画像と入力画像を使用して簡単にヘッダー画像を生成し、ダウンロードできるStreamlitアプリケーションです。PyPIにも公開されています。
+Pic-to-Headerは、マスク画像と入力画像を使用して簡単にヘッダー画像を生成し、ダウンロードできるStreamlitアプリケーションです。PyPIにも公開されています。  コマンドラインインターフェース(CLI)にも対応しています。
 
 ## ✨ 主な機能
 
@@ -40,37 +40,22 @@ Pic-to-Headerは、マスク画像と入力画像を使用して簡単にヘッ�
 - ヘッダー画像の生成
 - 生成されたヘッダー画像のプレビューとダウンロード
 - コマンドラインインターフェース (CLI) を使用した画像処理
+- READMEページとリリースノートページのStreamlitアプリへの追加
 
+
+## 🔧 使用方法
 
 ### 方法1: PyPIからのインストール
 
 Pic-to-Headerは、PyPIで利用可能です。以下のコマンドでインストールできます：
 
-```
+```bash
 pip install pic-to-header
 ```
 
 ### 方法2: ソースからのインストール
 
 1. リポジトリをクローンします：
-
-1.  **インストール**:
-    ```bash
-    pip install -r requirements.txt
-    ```
-2.  **Streamlit アプリケーションの起動**:
-    ```bash
-    streamlit run pic_to_header/app.py
-    ```
-3. ブラウザで表示されるURLにアクセスし、入力画像とマスク画像をアップロードして、「ヘッダー画像を生成」ボタンをクリックしてください。
-
-2. パッケージをインストールします：
-
-```
-pip install -e .
-```
-
-1. リポジトリをクローンします:
    ```bash
    git clone https://github.com/Sunwood-ai-labs/pic-to-header.git
    cd pic-to-header
@@ -83,40 +68,43 @@ pip install -e .
 ### Streamlitウェブアプリケーション
 
 1. Streamlitアプリケーションを起動します：
-
-- リポジトリ名が `HarmonAI III` から `Pic-to-Header` に変更されました。
-- READMEにリリース、タグ、PyPIバージョンのバッジを追加しました。
-- PyPIへのパッケージ公開を自動化しました。
-- Streamlitアプリケーションの機能強化とデザイン改善を行いました。
-- 入力サンプル画像、生成サンプル画像、マスク画像を追加しました。
-
+   ```bash
+   streamlit run pic_to_header/app.py
+   ```
 2. ブラウザで表示されるURLにアクセスします。
-
 3. 入力画像とマスク画像をアップロードします。
-
 4. "ヘッダー画像を生成"ボタンをクリックします。
-
 5. 生成されたヘッダー画像をプレビューし、必要に応じてダウンロードします。
+
 
 ### コマンドラインインターフェース (CLI)
 
 CLIを使用して画像を処理することもできます：
 
-```
+```bash
 pic-to-header input_image.png mask_image.png output_image.png
 ```
 
 例：
 
-```
+```bash
 pic-to-header assets/sample.png assets/mask.png output_image.png
 ```
 
-## 💻 開発
 
-- `pic_to_header/core.py`: 画像処理の主要な機能を含みます。
-- `pic_to_header/app.py`: Streamlitを使用したWebインターフェースを提供します。
-- `pic_to_header/cli.py`: コマンドラインインターフェースを提供します。
+## 📦 インストール手順
+
+上記「使用方法」セクションを参照してください。
+
+
+## 🆕 最新情報
+
+- コマンドラインインターフェース(CLI)の実装により、コマンドラインから画像処理が可能になりました。
+- READMEページとリリースノートページがStreamlitアプリに追加されました。
+- ドキュメントが改善され、PyPIからのインストール方法やCLIの使い方などが追加されました。
+- CLIのエントリポイントが`pic_to_header.app:main`から`pic_to_header.cli:main`に変更されました。
+- バージョン番号が0.1.0から0.1.1に更新されました。
+
 
 ## 📄 ライセンス
 
