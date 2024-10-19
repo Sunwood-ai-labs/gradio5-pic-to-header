@@ -1,6 +1,6 @@
 ---
 license: mit
-title: Pic-to-Header
+title: pic-to-header
 sdk: streamlit
 emoji: 🐨
 colorFrom: blue
@@ -47,7 +47,7 @@ Pic-to-Header is a Streamlit application that allows you to easily generate and 
 
 ### Method 1: Installation from PyPI
 
-Pic-to-Header is available on PyPI. You can install it using the following command:
+Pic-to-Header is available on PyPI.  You can install it using the following command:
 
 ```bash
 pip install pic-to-header
@@ -67,12 +67,12 @@ pip install pic-to-header
 
 ### Streamlit Web Application
 
-1. Launch the Streamlit application:
+1. Start the Streamlit application:
    ```bash
-   streamlit run pic_to-header/app.py
+   streamlit run pic_to_header/app.py
    ```
 2. Access the URL displayed in your browser.
-3. Upload the input image and mask image.
+3. Upload your input and mask images.
 4. Click the "Generate Header Image" button.
 5. Preview and download the generated header image as needed.
 
@@ -91,6 +91,39 @@ Example:
 pic-to-header assets/sample.png assets/mask.png output_image.png
 ```
 
+### Using the Python Script
+
+The `pic-to-header` package can also be used directly within a Python script.  Here's an example:
+
+```python
+from pic_to_header.core import process_header_image
+
+# Specify the paths to the input image, mask image, and output image
+input_image_path = "path/to/input_image.png"
+mask_image_path = "path/to/mask_image.png"
+output_image_path = "path/to/output_image.png"
+
+# Generate the header image
+result = process_header_image(input_image_path, mask_image_path, output_image_path)
+
+print(f"Header image generated: {result}")
+```
+
+This script works as follows:
+
+1. Imports the `process_header_image` function from the `pic_to_header.core` module.
+2. Specifies the paths to the input image, mask image, and output image.
+3. Calls the `process_header_image` function to generate the header image.
+4. Displays the path to the generated image.
+
+Running this script will generate the header image at the specified output path.
+
+## 💻 Development
+
+- `pic_to_header/core.py`: Contains the core image processing functionality.
+- `pic_to_header/app.py`: Provides the web interface using Streamlit.
+- `pic_to_header/cli.py`: Provides the command-line interface.
+
 
 ## 📦 Installation Instructions
 
@@ -101,9 +134,9 @@ See the "Usage" section above.
 
 - Implemented a command-line interface (CLI) for image processing from the command line.
 - Added a README page and release notes page to the Streamlit app.
-- Improved documentation, including instructions for installation from PyPI and CLI usage.
-- Changed the CLI entry point from `pic_to_header.app:main` to `pic_to-header.cli:main`.
-- Updated version number from 0.1.0 to 0.1.1.
+- Improved documentation, adding instructions for installation from PyPI and CLI usage.
+- Changed the CLI entry point from `pic_to_header.app:main` to `pic_to_header.cli:main`.
+- Version number updated from 0.1.0 to 0.1.1.
 
 
 ## 📄 License
