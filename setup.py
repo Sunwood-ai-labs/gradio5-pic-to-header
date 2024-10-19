@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="pic-to-header",
-    version="0.1.0",
+    version="0.1.1",
     author="Sunwood-ai-labs",
     author_email="your.email@example.com",
     description="A Python application to generate header images using mask and input images",
@@ -32,7 +32,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "pic-to-header=pic_to_header.app:main",
+            "pic-to-header=pic_to_header.cli:main",
         ],
     },
 )
