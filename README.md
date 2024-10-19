@@ -28,16 +28,19 @@ app_file: pic_to_header/app.py
 
 </div>
 
-Pic-to-Headerは、マスク画像と入力画像を使用してヘッダー画像を生成するPythonアプリケーションです。
+Pic-to-Headerは、マスク画像と入力画像を使用してヘッダー画像を生成するPythonアプリケーションです。  バージョン 0.1.0 がリリースされました。
 
-## 🚀 機能
+## 🚀 プロジェクト概要
 
-- マスク画像と入力画像をアップロード
-- 入力画像にマスクを適用してヘッダー画像を生成
+Pic-to-Headerは、マスク画像と入力画像を使用して簡単にヘッダー画像を生成し、ダウンロードできるStreamlitアプリケーションです。PyPIにも公開されています。
+
+## ✨ 主な機能
+
+- マスク画像と入力画像のアップロード
+- ヘッダー画像の生成
 - 生成されたヘッダー画像のプレビューとダウンロード
 - コマンドラインインターフェース (CLI) を使用した画像処理
 
-## 🛠️ インストール
 
 ### 方法1: PyPIからのインストール
 
@@ -51,10 +54,15 @@ pip install pic-to-header
 
 1. リポジトリをクローンします：
 
-```
-git clone https://github.com/Sunwood-ai-labs/pic-to-header.git
-cd pic-to-header
-```
+1.  **インストール**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+2.  **Streamlit アプリケーションの起動**:
+    ```bash
+    streamlit run pic_to_header/app.py
+    ```
+3. ブラウザで表示されるURLにアクセスし、入力画像とマスク画像をアップロードして、「ヘッダー画像を生成」ボタンをクリックしてください。
 
 2. パッケージをインストールします：
 
@@ -62,15 +70,25 @@ cd pic-to-header
 pip install -e .
 ```
 
-## 📖 使用方法
+1. リポジトリをクローンします:
+   ```bash
+   git clone https://github.com/Sunwood-ai-labs/pic-to-header.git
+   cd pic-to-header
+   ```
+2. 必要な依存関係をインストールします:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 ### Streamlitウェブアプリケーション
 
 1. Streamlitアプリケーションを起動します：
 
-```
-streamlit run pic_to_header/app.py
-```
+- リポジトリ名が `HarmonAI III` から `Pic-to-Header` に変更されました。
+- READMEにリリース、タグ、PyPIバージョンのバッジを追加しました。
+- PyPIへのパッケージ公開を自動化しました。
+- Streamlitアプリケーションの機能強化とデザイン改善を行いました。
+- 入力サンプル画像、生成サンプル画像、マスク画像を追加しました。
 
 2. ブラウザで表示されるURLにアクセスします。
 
