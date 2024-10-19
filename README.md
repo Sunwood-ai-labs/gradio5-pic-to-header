@@ -91,6 +91,39 @@ pic-to-header input_image.png mask_image.png output_image.png
 pic-to-header assets/sample.png assets/mask.png output_image.png
 ```
 
+### Pythonスクリプトでの使用
+
+`pic-to-header` パッケージは、Pythonスクリプト内で直接使用することもできます。以下は使用例です：
+
+```python
+from pic_to_header.core import process_header_image
+
+# 入力画像、マスク画像、出力画像のパスを指定
+input_image_path = "path/to/input_image.png"
+mask_image_path = "path/to/mask_image.png"
+output_image_path = "path/to/output_image.png"
+
+# ヘッダー画像を生成
+result = process_header_image(input_image_path, mask_image_path, output_image_path)
+
+print(f"ヘッダー画像が生成されました: {result}")
+```
+
+このスクリプトは以下の手順で動作します：
+
+1. `pic_to_header.core` モジュールから `process_header_image` 関数をインポートします。
+2. 入力画像、マスク画像、出力画像のパスを指定します。
+3. `process_header_image` 関数を呼び出して、ヘッダー画像を生成します。
+4. 生成された画像のパスを表示します。
+
+このスクリプトを実行すると、指定した出力パスにヘッダー画像が生成されます。
+
+## 💻 開発
+
+- `pic_to_header/core.py`: 画像処理の主要な機能を含みます。
+- `pic_to_header/app.py`: Streamlitを使用したWebインターフェースを提供します。
+- `pic_to_header/cli.py`: コマンドラインインターフェースを提供します。
+
 
 ## 📦 インストール手順
 
