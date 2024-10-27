@@ -34,6 +34,17 @@ Pic-to-Headerは、マスク画像と入力画像を使用してヘッダー画�
 
 Pic-to-Headerは、マスク画像と入力画像を使用して簡単にヘッダー画像を生成し、ダウンロードできるStreamlitアプリケーションです。PyPIにも公開されています。  コマンドラインインターフェース(CLI)にも対応しています。
 
+
+## 🎥 デモ動画
+
+https://github.com/user-attachments/assets/9306ad92-9a2e-45d7-9004-0eba9c0e1207
+
+
+## 🤗 デモサイト
+
+<!-- Spacesのステータスバッジ -->
+[![Spaces](https://img.shields.io/badge/🤗%20Hugging%20Face-Spaces-yellow.svg)](https://huggingface.co/spaces/MakiAi/pic-to-header)
+
 ## ✨ 主な機能
 
 - マスク画像と入力画像のアップロード
