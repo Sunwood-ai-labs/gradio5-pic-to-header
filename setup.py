@@ -25,10 +25,12 @@ setup(
     ],
     python_requires=">=3.7",
     install_requires=[
-        "streamlit",
+        "gradio[mcp]>=5",
         "opencv-python",
         "numpy",
         "loguru",
+        "pillow",
+        "requests",
     ],
     entry_points={
         "console_scripts": [

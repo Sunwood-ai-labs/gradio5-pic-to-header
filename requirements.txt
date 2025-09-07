@@ -1,4 +1,6 @@
 opencv-python
-# numpy
-streamlit
+numpy
+gradio[mcp]>=5
 loguru
+pillow
+requests
