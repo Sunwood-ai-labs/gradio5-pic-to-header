@@ -14,6 +14,70 @@ from .modules.mask_manager import MaskManager
 mm = MaskManager()
 
 
+# Custom theme using provided palette
+# Palette:
+#  - Light background: #FFFFFF
+#  - Primary (accent): #4B2273
+#  - Text (dark):      #07030D
+#  - Secondary darks:  #160A26, #251240
+def create_pictoheader_theme() -> gr.Theme:
+    return (
+        gr.Theme(
+            primary_hue="slate",
+            secondary_hue="stone",
+            neutral_hue="zinc",
+            text_size="md",
+            spacing_size="lg",
+            radius_size="lg",
+            font=[
+                "Hiragino Sans",
+                "Noto Sans JP",
+                "Yu Gothic",
+                "system-ui",
+                "sans-serif",
+            ],
+            font_mono=[
+                "SF Mono",
+                "Monaco",
+                "monospace",
+            ],
+        ).set(
+            body_background_fill="#FFFFFF",
+            body_text_color="#07030D",
+
+            button_primary_background_fill="#4B2273",
+            button_primary_background_fill_hover="#251240",
+            button_primary_text_color="#FFFFFF",
+
+            button_secondary_background_fill="#160A26",
+            button_secondary_background_fill_hover="#251240",
+            button_secondary_text_color="#FFFFFF",
+
+            input_background_fill="#FFFFFF",
+            input_border_color="#251240",
+            input_border_color_focus="#4B2273",
+
+            block_background_fill="#FFFFFF",
+            block_border_color="#251240",
+            panel_background_fill="#FFFFFF",
+            panel_border_color="#251240",
+
+            slider_color="#4B2273",
+
+            # ここがポイント：チェックボックスのラベル背景
+            checkbox_label_background_fill="#4A2272",
+            checkbox_label_background_fill_hover="#4A2272",
+            checkbox_label_background_fill_selected="#4A2272",
+            checkbox_label_background_fill_dark="#833CC9",
+            checkbox_label_background_fill_hover_dark="#833CC9",
+            checkbox_label_background_fill_selected_dark="#833CC9",
+
+            # これがCSSの --checkbox-label-text-color
+            checkbox_label_text_color="#FFFFFF",
+            # 選択時の文字色（CSS: --checkbox-label-text-color-selected）
+            checkbox_label_text_color_selected="#FFFFFF",
+        )
+    )
 def _resolve_mask(mask_source: str,
                   preset_name: Optional[str],
                   mask_url: Optional[str],
