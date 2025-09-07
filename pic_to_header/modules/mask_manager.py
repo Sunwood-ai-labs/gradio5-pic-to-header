@@ -1,7 +1,7 @@
 import requests
 from PIL import Image
 import io
-import streamlit as st
+from functools import lru_cache
 
 class MaskManager:
     def __init__(self):
@@ -11,16 +11,15 @@ class MaskManager:
         }
 
     @staticmethod
-    @st.cache_data
+    @lru_cache(maxsize=32)
     def load_mask_from_url(url):
-        """URLから画像を読み込む"""
+        """URLから画像を読み込む。失敗時はNoneを返す"""
         try:
-            response = requests.get(url)
+            response = requests.get(url, timeout=10)
             response.raise_for_status()
             image = Image.open(io.BytesIO(response.content))
             return image
-        except Exception as e:
-            st.error(f"マスク画像の読み込みに失敗しました: {str(e)}")
+        except Exception:
             return None
 
     def get_preset_names(self):
