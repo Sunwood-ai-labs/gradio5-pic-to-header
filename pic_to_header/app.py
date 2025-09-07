@@ -1,111 +1,183 @@
-import streamlit as st
+import os
+import tempfile
+import zipfile
+from typing import List, Optional, Any
+
+import gradio as gr
 from PIL import Image
 import numpy as np
-from modules.image_processor import process_image, prepare_image, convert_to_pil
-from modules.mask_manager import MaskManager
-from modules.utils import create_download_button
 
-def main():
-    # ワイドモードの設定
-    st.set_page_config(layout="wide")
+from .modules.image_processor import process_image, convert_to_pil
+from .modules.mask_manager import MaskManager
 
-    st.markdown("""
-    <div align="center">
-    
-    # Pic-to-Header
 
-    <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/pic-to-header/refs/heads/main/assets/result.png" width="50%">
+mm = MaskManager()
 
-    [![GitHub license](https://img.shields.io/github/license/Sunwood-ai-labs/pic-to-header)](https://github.com/Sunwood-ai-labs/pic-to-header/blob/main/LICENSE)
-    [![GitHub stars](https://img.shields.io/github/stars/Sunwood-ai-labs/pic-to-header)](https://github.com/Sunwood-ai-labs/pic-to-header/stargazers)
-    [![GitHub issues](https://img.shields.io/github/issues/Sunwood-ai-labs/pic-to-header)](https://github.com/Sunwood-ai-labs/pic-to-header/issues)
 
-    ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-    ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)
-    ![OpenCV](https://img.shields.io/badge/opencv-%23white.svg?style=for-the-badge&logo=opencv&logoColor=white)
-    </div>
-    """, unsafe_allow_html=True)
+def _resolve_mask(mask_source: str,
+                  preset_name: Optional[str],
+                  mask_url: Optional[str],
+                  mask_upload: Optional[Image.Image]) -> Optional[Image.Image]:
+    if mask_source == "プリセットから選択" and preset_name:
+        return mm.get_preset_mask(preset_name)
+    if mask_source == "URLから取得" and mask_url:
+        return mm.load_mask_from_url(mask_url)
+    if mask_source == "ファイルをアップロード" and mask_upload is not None:
+        return mask_upload
+    return None
 
-    st.write("Pic-to-Headerは、マスク画像と入力画像を使用してヘッダー画像を生成するPythonアプリケーションです。")
-    st.write("マスク画像と入力画像をアップロードして、ヘッダー画像を生成します。")
 
-    # 2段組レイアウトの作成（左側を狭く、右側を広く）
-    control_column, display_column = st.columns([1, 2])
+def update_mask_preview(mask_source, preset_name, mask_url, mask_upload):
+    mask = _resolve_mask(mask_source, preset_name, mask_url, mask_upload)
+    return mask
 
-    with control_column:
-        # マスク管理インスタンスの作成
-        mask_manager = MaskManager()
 
-        # マスク画像の取得方法を選択
-        mask_source = st.radio(
-            "マスク画像の取得方法を選択",
-            ["プリセットから選択", "URLから取得", "ファイルをアップロード"]
-        )
+def _zip_images(images: List[Image.Image]) -> str:
+    tmpdir = tempfile.mkdtemp(prefix="pic_to_header_")
+    paths = []
+    for i, img in enumerate(images):
+        p = os.path.join(tmpdir, f"header_{i+1}.png")
+        img.save(p, format="PNG")
+        paths.append(p)
+    zpath = os.path.join(tmpdir, "headers.zip")
+    with zipfile.ZipFile(zpath, 'w', zipfile.ZIP_DEFLATED) as zf:
+        for p in paths:
+            zf.write(p, arcname=os.path.basename(p))
+    return zpath
 
-        mask_image = None
-        if mask_source == "プリセットから選択":
-            preset_name = st.selectbox(
-                "プリセットを選択",
-                mask_manager.get_preset_names()
-            )
-            mask_image = mask_manager.get_preset_mask(preset_name)
-        
-        elif mask_source == "URLから取得":
-            mask_url = st.text_input("マスク画像のURLを入力")
-            if mask_url:
-                mask_image = mask_manager.load_mask_from_url(mask_url)
-        
-        else:  # ファイルをアップロード
-            mask_file = st.file_uploader("マスク画像をアップロード", type=["png", "jpg", "jpeg"])
-            if mask_file is not None:
-                mask_image = Image.open(mask_file)
 
-        # 透明度の調整
-        alpha = st.slider("マスクの透明度", 0.0, 1.0, 1.0)
+def _load_pil_images_from_files(files: Optional[List[Any]]) -> List[Image.Image]:
+    imgs: List[Image.Image] = []
+    if not files:
+        return imgs
+    for f in files:
+        path = None
+        if isinstance(f, str):
+            path = f
+        elif isinstance(f, dict) and "path" in f:
+            path = f.get("path")
+        elif hasattr(f, "name"):
+            path = getattr(f, "name")
+        if path and os.path.exists(path):
+            try:
+                imgs.append(Image.open(path).convert("RGBA"))
+            except Exception:
+                pass
+    return imgs
 
-        # ファイルアップロード（複数ファイル対応）
-        uploaded_files = st.file_uploader(
-            "画像をアップロードしてください",
-            type=["png", "jpg", "jpeg", "webp"],
-            accept_multiple_files=True
-        )
-        if mask_image:
-            # マスク画像のプレビュー表示
-            st.write("選択中のマスク画像:")
-            st.image(mask_image, caption="マスク画像", use_column_width=True)
+
+def generate(images: Optional[List[Any]],
+             mask_source: str,
+             preset_name: Optional[str],
+             mask_url: Optional[str],
+             mask_upload: Optional[Image.Image],
+             alpha: float):
+    pil_images = _load_pil_images_from_files(images)
+    if not pil_images:
+        return None, None, gr.update(value=None)
+
+    mask = _resolve_mask(mask_source, preset_name, mask_url, mask_upload)
+    if mask is None:
+        return None, None, gr.update(value=None)
+
+    results = []
+    originals = []
+    mask_np = np.array(mask)
+    for img in pil_images:
+        originals.append(img)
+        out = process_image(img, mask_np, alpha)
+        out_pil = convert_to_pil(out)
+        results.append(out_pil)
+
+    zip_path = _zip_images(results)
+    return originals, results, zip_path
+
+
+def build_demo():
+    with gr.Blocks(title="Pic-to-Header (Gradio)") as demo:
+        gr.Markdown(
+            """
+            <div align="center">
             
-    with display_column:
+            # Gradio5 Pic-to-Header
+            
+            </div>
+            """,
+            elem_id="header_md"
+        )
 
-        if uploaded_files:
-            st.write("処理結果:")
-            # 各画像の処理と表示
-            for idx, uploaded_file in enumerate(uploaded_files):
-                # 水平に2列で表示するための設定
-                img_col1, img_col2 = st.columns(2)
-                
-                # 元画像の表示
-                with img_col1:
-                    st.write(f"元画像 {idx + 1}:")
-                    st.image(uploaded_file, use_column_width=True)
+        with gr.Row():
+            with gr.Column(scale=1):
+                mask_source = gr.Radio(
+                    ["プリセットから選択", "URLから取得", "ファイルをアップロード"],
+                    label="マスク画像の取得方法",
+                    value="プリセットから選択",
+                )
+                preset_name = gr.Dropdown(
+                    choices=mm.get_preset_names(),
+                    label="プリセット",
+                    value=mm.get_preset_names()[0] if mm.get_preset_names() else None,
+                )
+                mask_url = gr.Textbox(label="マスク画像のURL")
+                mask_upload = gr.Image(label="マスク画像をアップロード", type="pil")
 
-                # 処理後の画像の表示
-                with img_col2:
-                    st.write(f"処理後 {idx + 1}:")
-                    input_image = prepare_image(uploaded_file)
-                    if input_image is not None:
-                        result = process_image(input_image, np.array(mask_image), alpha)
-                        result_pil = convert_to_pil(result)
-                        st.image(result_pil, use_column_width=True)
-                        
-                        # ダウンロードボタンの作成
-                        create_download_button(
-                            result_pil,
-                            f"header_{uploaded_file.name}"
-                        )
-                
-                # 区切り線を追加（最後の画像以外）
-                if idx < len(uploaded_files) - 1:
-                    st.markdown("---")
-                        
+                alpha = gr.Slider(0.0, 1.0, step=0.01, value=1.0, label="マスクの透明度")
+
+                mask_preview = gr.Image(label="マスクプレビュー", interactive=False)
+
+            with gr.Column(scale=2):
+                images = gr.Files(label="画像をアップロード (複数可)", file_count="multiple", file_types=["image"])
+                run = gr.Button("ヘッダー画像を生成")
+                with gr.Row():
+                    originals_gallery = gr.Gallery(label="元画像", columns=2, height=300)
+                    results_gallery = gr.Gallery(label="処理結果", columns=2, height=300)
+                download_zip = gr.File(label="一括ダウンロード (ZIP)")
+
+        # Visibility and preview updates
+        def toggle_inputs(ms):
+            return (
+                gr.update(visible=(ms == "プリセットから選択")),
+                gr.update(visible=(ms == "URLから取得")),
+                gr.update(visible=(ms == "ファイルをアップロード")),
+            )
+
+        mask_source.change(
+            fn=toggle_inputs,
+            inputs=[mask_source],
+            outputs=[preset_name, mask_url, mask_upload],
+            api_name="toggle_inputs",
+        )
+
+        for comp in (mask_source, preset_name, mask_url, mask_upload):
+            comp.change(
+                fn=update_mask_preview,
+                inputs=[mask_source, preset_name, mask_url, mask_upload],
+                outputs=[mask_preview],
+                api_name="update_mask_preview",
+            )
+
+        run.click(
+            fn=generate,
+            inputs=[images, mask_source, preset_name, mask_url, mask_upload, alpha],
+            outputs=[originals_gallery, results_gallery, download_zip],
+            api_name="generate",
+        )
+
+    return demo
+
+
+def _env_flag(name: str, default: bool = False) -> bool:
+    val = os.getenv(name)
+    if val is None:
+        return default
+    return str(val).strip().lower() in {"1", "true", "yes", "on"}
+
+
 if __name__ == "__main__":
-    main()
+    demo = build_demo()
+    demo.launch(mcp_server=_env_flag("GRADIO_MCP_SERVER", True))
+
+def main_entry():
+    """Console script entry point to launch Gradio UI."""
+    demo = build_demo()
+    demo.launch(mcp_server=_env_flag("GRADIO_MCP_SERVER", True))

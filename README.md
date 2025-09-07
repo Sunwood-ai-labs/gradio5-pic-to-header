@@ -1,7 +1,7 @@
 ---
 license: mit
 title: pic-to-header
-sdk: streamlit
+sdk: gradio
 emoji: 🐨
 colorFrom: blue
 colorTo: purple
@@ -23,7 +23,7 @@ app_file: pic_to_header/app.py
 [![PyPI version](https://badge.fury.io/py/pic-to-header.svg)](https://badge.fury.io/py/pic-to-header)
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)
+![Gradio](https://img.shields.io/badge/Gradio-00A67E?style=for-the-badge&logo=Gradio&logoColor=white)
 ![OpenCV](https://img.shields.io/badge/opencv-%23white.svg?style=for-the-badge&logo=opencv&logoColor=white)
 
 </div>
@@ -32,7 +32,7 @@ Pic-to-Headerは、マスク画像と入力画像を使用してヘッダー画�
 
 ## 🚀 プロジェクト概要
 
-Pic-to-Headerは、マスク画像と入力画像を使用して簡単にヘッダー画像を生成し、ダウンロードできるStreamlitアプリケーションです。PyPIにも公開されています。  コマンドラインインターフェース(CLI)にも対応しています。
+Pic-to-Headerは、マスク画像と入力画像を使用して簡単にヘッダー画像を生成し、ダウンロードできるGradioアプリケーションです。PyPIにも公開されています。  コマンドラインインターフェース(CLI)にも対応しています。
 
 
 ## 🎥 デモ動画
@@ -59,6 +59,28 @@ https://github.com/user-attachments/assets/9306ad92-9a2e-45d7-9004-0eba9c0e1207
 
 ## 🔧 使用方法
 
+### uv での環境構築と起動（推奨）
+
+1. 依存関係を同期（初回のみ）
+   ```bash
+   uv sync
+   ```
+2. Gradioアプリを起動
+   ```bash
+   uv run pic-to-header-ui
+   # または
+   uv run python -m pic_to_header.app
+   ```
+   - MCP サーバー（既定で有効）:
+     - 依存は `gradio[mcp]` に含まれるため、`uv sync` 済みならそのまま動作します。
+     - 環境変数で制御: `GRADIO_MCP_SERVER=True uv run pic-to-header-ui`
+     - 無効にしたい場合: `GRADIO_MCP_SERVER=False uv run pic-to-header-ui`
+   - MCP 有効時、この Gradio アプリは各 API エンドポイント（例: `generate`, `toggle_inputs`, `update_mask_preview`）に対応する MCP ツールを公開します。
+3. CLI を使用
+   ```bash
+   uv run pic-to-header assets/sample.png assets/mask.png output.png
+   ```
+
 ### 方法1: PyPIからのインストール
 
 Pic-to-Headerは、PyPIで利用可能です。以下のコマンドでインストールできます：
@@ -79,11 +101,11 @@ pip install pic-to-header
    pip install -r requirements.txt
    ```
 
-### Streamlitウェブアプリケーション
+### Gradioウェブアプリケーション
 
-1. Streamlitアプリケーションを起動します：
+1. Gradioアプリケーションを起動します：
    ```bash
-   streamlit run pic_to_header/app.py
+   python pic_to_header/app.py
    ```
 2. ブラウザで表示されるURLにアクセスします。
 3. 入力画像とマスク画像をアップロードします。
@@ -135,7 +157,7 @@ print(f"ヘッダー画像が生成されました: {result}")
 ## 💻 開発
 
 - `pic_to_header/core.py`: 画像処理の主要な機能を含みます。
-- `pic_to_header/app.py`: Streamlitを使用したWebインターフェースを提供します。
+- `pic_to_header/app.py`: Gradioを使用したWebインターフェースを提供します。
 - `pic_to_header/cli.py`: コマンドラインインターフェースを提供します。
 
 
