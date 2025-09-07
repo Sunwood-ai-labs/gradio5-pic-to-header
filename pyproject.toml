@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pic-to-header"
+version = "0.1.1"
+description = "Generate header images by applying masks to input images (Gradio UI)"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [{ name = "Sunwood-ai-labs" }]
+license = { text = "MIT" }
+dependencies = [
+  "gradio[mcp]>=5",
+  "opencv-python",
+  "numpy",
+  "loguru",
+  "pillow",
+  "requests",
+]
+
+[project.scripts]
+pic-to-header = "pic_to_header.cli:main"
+pic-to-header-ui = "pic_to_header.app:main_entry"
+
+[tool.setuptools.packages.find]
+include = ["pic_to_header*"]
