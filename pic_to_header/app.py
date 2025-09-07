@@ -158,11 +158,14 @@ def generate(images: Optional[List[Any]],
 
 
 def build_demo():
-    with gr.Blocks(title="Pic-to-Header (Gradio)") as demo:
+    theme = create_pictoheader_theme()
+    with gr.Blocks(theme=theme, title="Pic-to-Header (Gradio)") as demo:
         gr.Markdown(
             """
             <div align="center">
             
+            <img src="https://github.com/user-attachments/assets/6f680437-3a63-45f7-a022-edc3c9988da9" alt="Pic-to-Header Logo"  >
+
             # Gradio5 Pic-to-Header
             
             </div>
